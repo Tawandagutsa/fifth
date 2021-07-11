@@ -7,6 +7,7 @@ import 'dart:convert';
 
 class Products with ChangeNotifier {
   final authToken;
+  var _extractedData;
   List<Product> _items = [
     // Product(
     //   id: 'p1',
@@ -67,12 +68,12 @@ class Products with ChangeNotifier {
 
     try {
       final response = await http.get(url);
-      var extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData == null) {
+      _extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (_extractedData == null) {
         return;
       }
       final List<Product> loadedProducts = [];
-      extractedData.forEach((prodId, prodData) {
+      _extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
           id: prodId,
           title: prodData['title'],
@@ -88,4 +89,25 @@ class Products with ChangeNotifier {
       throw (error);
     }
   }
-}
+
+
+
+  //  List<Product> category(BuildContext context, String category) {
+
+  //     final List<Product> loadedProducts = [];
+  //     _extractedData.forEach((prodId, prodData) {
+  //       if (prodData['category']==category){
+  //          loadedProducts.add(Product(
+  //             id: prodId,
+  //             title: prodData['title'],
+  //             description: prodData['Description'],
+  //             imageUrl: prodData['imageUrl'],
+  //             price: prodData['Price'],
+  //             isFavourite: prodData['isFavorite'],
+  //       ));
+  //       }        
+  //     });
+  //     return loadedProducts;
+  //   }
+  }
+
